@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, My Love! ❤️</title>
+    <!-- Load Tailwind CSS for utility classes and quick styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Pacifico&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden; /* Prevent scrolling when cards fly out */
+            /* UPDATED: Subtle Radial Gradient Background */
+            background: radial-gradient(circle at top left, #fee2e2 0%, #fef2f2 60%, #fdf2f8 100%);
+        }
+
+        /* --- 3D Stacking Container and Perspective --- */
+        .stack-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1500px; /* Essential for 3D effect */
+        }
+
+        /* --- Card Base Styles (UPDATED FOR MORE TEXT) --- */
+        .card {
+            position: absolute;
+            width: 85vw;
+            max-width: 400px; /* Slightly wider max-width */
+            height: 75vh; /* Increased height for more text space */
+            max-height: 700px; /* Increased max height */
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 1.5rem;
+            background-color: white;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55), 
+                        opacity 0.6s ease-out;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            user-select: none;
+            will-change: transform, opacity;
+        }
+
+        /* Card Content Styles (UPDATED FOR 1:1 IMAGE RATIO) */
+        .card-img {
+            width: 100%;
+            height: auto; /* Allow height to be determined by aspect-ratio */
+            aspect-ratio: 1 / 1; /* Ensures a perfect square (1:1) image space */
+            object-fit: cover;
+            border-radius: 1rem;
+            border: 4px solid #fbcfe8;
+            /* Added margin-bottom to separate image from text */
+            margin-bottom: 1rem; 
+        }
+
+        .card p {
+            /* Text content will now occupy the remaining space below the square image */
+            font-size: 1rem;
+            text-align: center;
+            color: #3f0015;
+            /* Removed margin-top: 1rem; since margin-bottom is added to the image */
+            line-height: 1.4;
+            /* Flex-grow allows the text area to expand to fill the new extra space */
+            flex-grow: 1; 
+            overflow-y: auto; /* Add scroll if text is too long */
+            padding-top: 0.5rem;
+        }
+        
+        /* Hint Text */
+        .hint-text {
+            position: absolute;
+            bottom: 5vh;
+            color: #f97316;
+            font-size: 0.9rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* --- Individual Card Stacking (Initial Position) --- */
+        /* These styles give each card a slight, random 3D tilt */
+        #card-4 { 
+            /* Top Card */
+            z-index: 40; 
+            transform: translate(-50%, -50%) rotate(3deg) translateZ(12px) scale(1); 
+            background: #ffe4e6;
+        }
+        #card-3 { 
+            z-index: 30; 
+            transform: translate(-50%, -50%) rotate(-4deg) translateZ(8px) scale(0.98); 
+            background: #fef3f7;
+        }
+        #card-2 { 
+            z-index: 20; 
+            transform: translate(-50%, -50%) rotate(2deg) translateZ(4px) scale(0.96); 
+            background: #fffafa;
+        }
+        #card-1 { 
+            /* Bottom Card - Needs a bit more padding/detail */
+            z-index: 10; 
+            transform: translate(-50%, -50%) rotate(-1deg) translateZ(0px) scale(0.94); 
+            padding: 2.5rem; /* Slightly larger inner padding */
+        }
+
+        /* --- Final Message Section --- */
+        .final-message {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none; /* Controlled by JS */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #fbcfe8 0%, #fef2f2 100%);
+            z-index: 50;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            font-family: 'Pacifico', cursive; /* Fun script font for the message */
+        }
+
+        .final-message.visible {
+            display: flex;
+            opacity: 1;
+        }
+
+        .cake-img {
+            width: 80vw;
+            max-width: 300px;
+            margin-top: 2rem;
+            animation: float 3s ease-in-out infinite alternate;
+        }
+
+        /* --- Animations --- */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="stack-container">
+        <!-- Card 4 (TOP CARD) -->
+        <div id="card-4" class="card absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <h2 class="text-xl font-bold text-pink-700">Card 1: The Adventure</h2>
+            <img src="https://placehold.co/380x380/fecaca/9d174d?text=Her+Favorite+Memory+Pic+(1:1)" alt="Favorite Memory" class="card-img">
+            <p class="text-sm">"Every day with you is an adventure. Thank you for making even the small moments unforgettable. I cherish our trips and future plans! Now you have plenty of room to write a much longer, more detailed message here, describing all the wonderful things you've done together and how much they mean to you. This extended space ensures every thought finds its perfect place on the card."</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div id="card-3" class="card absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <h2 class="text-xl font-bold text-pink-700">Card 2: The Compliment</h2>
+            <img src="https://placehold.co/380x380/fecaca/9d174d?text=Her+Sweetest+Smile+Pic+(1:1)" alt="Sweetest Smile" class="card-img">
+            <p class="text-sm">"Your smile lights up my world. Seriously. You are the kindest, smartest, and most beautiful person I know, inside and out. Use this generous space to list five specific qualities you adore about her. For example: her sense of humor, her dedication to her goals, the way she listens, her compassion for others, and the beautiful light she brings into your life. The taller card design gives you the freedom to elaborate on each one!"</p>
+        </div>
+        
+        <!-- Card 2 -->
+        <div id="card-2" class="card absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <h2 class="text-xl font-bold text-pink-700">Card 3: My Promise</h2>
+            <img src="https://placehold.co/380x380/fecaca/9d174d?text=Pic+of+You+Both+(1:1)" alt="Pic of You Both" class="card-img">
+            <p class="text-sm">"On your special day, I promise to always be your biggest supporter, your best friend, and your partner in crime. Always and forever. Here, you can write a paragraph about your commitment to her, detailing what 'always and forever' really means to you—whether it's supporting her through tough times, celebrating her successes, or simply ensuring you always have time for date night. This card is now perfect for a mini-love letter!"</p>
+        </div>
+
+        <!-- Card 1 (BOTTOM CARD) -->
+        <div id="card-1" class="card absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <h2 class="text-3xl font-bold text-pink-800 mb-4">Click to Open Your Gift!</h2>
+            <svg class="h-16 w-16 text-red-500 animate-bounce" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 19v-8.93a2 2 0 01.89-1.664L12 3l7.11 5.406a2 2 0 01.89 1.664V19M21 19H3.998" />
+            </svg>
+            <p class="text-lg font-semibold mt-4">This stack holds 3 reasons why I love you. The cards are now larger to ensure your full messages fit perfectly!</p>
+        </div>
+
+        <p class="hint-text text-lg">Tap the top card to continue...</p>
+
+    </div>
+
+    <!-- Final Happy Birthday Message -->
+    <div class="final-message">
+        <h1 class="text-6xl md:text-8xl text-pink-900 font-extrabold tracking-tight mb-4 text-shadow-lg">Happy Birthday!</h1>
+        <p class="text-3xl md:text-4xl text-pink-700 mt-4">I love you more than words can say.</p>
+        
+        <!-- Simple Cake Emoji/Image -->
+        <img class="cake-img" src="https://placehold.co/300x300/f9a8d4/831843?text=%F0%9F%8E%82%0ACake%20%26%20Wishes" alt="Birthday Cake">
+        <p class="text-xl text-pink-900 mt-8">Wishing you the happiest day ever!</p>
+    </div>
+
+<script>
+    // Firebase is not needed for this static interaction, so we won't initialize it.
+
+    const stackContainer = document.querySelector('.stack-container');
+    const finalMessage = document.querySelector('.final-message');
+    const hintText = document.querySelector('.hint-text');
+
+    // Array of card IDs, from bottom to top (1 is lowest, 4 is highest/first clicked)
+    const cardOrder = ['card-1', 'card-2', 'card-3', 'card-4'];
+    let currentCardIndex = cardOrder.length - 1; // Start with the index of the top card (3)
+
+    // Function to handle the card removal animation
+    function removeTopCard(cardElement) {
+        // Remove click listener immediately to prevent double-clicks
+        cardElement.style.pointerEvents = 'none';
+
+        // Apply a massive, complex 3D transformation to make it 'fly away'
+        cardElement.style.transform = 'translate(150vw, -150vh) rotateZ(1080deg) rotateX(180deg) scale(0.1)';
+        cardElement.style.opacity = '0';
+        
+        // After the animation finishes, update the Z-index of the remaining cards
+        // Set timeout should match the CSS transition duration (1000ms/1s)
+        setTimeout(() => {
+            currentCardIndex--; // Move to the next card down
+
+            if (currentCardIndex >= 0) {
+                // Update hint text for the new top card
+                const nextCard = document.getElementById(cardOrder[currentCardIndex]);
+                if (nextCard) {
+                    // Bring the next card to the top visibly by updating its Z-index
+                    nextCard.style.zIndex = '40'; 
+                }
+            }
+            
+            // Final check
+            if (currentCardIndex < 0) {
+                // All cards are gone, show the final message
+                hintText.style.display = 'none'; // Hide the hint
+                stackContainer.style.display = 'none'; // Hide the container
+                finalMessage.classList.add('visible'); // Show the message with transition
+            }
+        }, 800);
+    }
+
+
+    // Set up click listeners for all cards
+    document.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('.card');
+        
+        cards.forEach(card => {
+            card.addEventListener('click', (event) => {
+                const clickedCardId = event.currentTarget.id;
+                const expectedCardId = cardOrder[currentCardIndex];
+
+                // Only allow the highest-zIndex/top-most card to be clicked
+                if (clickedCardId === expectedCardId) {
+                    removeTopCard(event.currentTarget);
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
